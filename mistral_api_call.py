@@ -1,0 +1,99 @@
+import os
+from mistralai import Mistral
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-large-latest"
+
+from mongo_util import DBCall
+dbCall = DBCall()
+
+def return_address_for_given_name(name):
+    ret = dbCall.fetchAddressForName(name)
+    return ret.address
+
+def return_id_for_given_name(name):
+    ret = dbCall.fetchIdForName(name)
+    return ret.Id
+
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "return_address_for_given_name",
+            "description": "Get address for a name",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "name of person.",
+                    }
+                },
+                "required": ["name"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "return_id_for_given_name",
+            "description": "Get Id for a name",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Id of person.",
+                    }
+                },
+                "required": ["name"],
+            },
+        },
+    }
+]
+
+import functools
+
+names_to_functions = {
+  'return_address_for_given_name': functools.partial(return_address_for_given_name),
+  'return_id_for_given_name': functools.partial(return_id_for_given_name)
+}
+
+import os
+from mistralai import Mistral
+
+# api_key = os.environ["MISTRAL_API_KEY"]
+# model = "mistral-large-latest"
+
+messages = [{"role": "user", "content": "What's the address and Id of person Amy?"}]
+
+client = Mistral(api_key=api_key)
+response = client.chat.complete(
+    model = model,
+    messages = messages,
+    tools = tools,
+    tool_choice = "any",
+)
+resp = response.choices[0].message
+
+import json
+# calls = response.choices[0].messages.tool_calls
+
+messages.append(response.choices[0].message)
+
+for tool_call in resp.tool_calls:
+    function_name = tool_call.function.name
+    function_params = json.loads(tool_call.function.arguments)
+    print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
+    function_result = names_to_functions[function_name](**function_params)
+    messages.append({"role": "tool", "name": function_name, "content": function_result, "tool_call_id": tool_call.id})
+
+response = client.chat.complete(
+    model = model,
+    messages = messages
+)
+print("Final output >>  "+ response.choices[0].message.content)
+
