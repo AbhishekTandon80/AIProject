@@ -65,8 +65,8 @@ class MistralCaller:
 
 
 
-    def responseFromMistal(self, content):
-        messages = [{"role": "user", "content": content}]
+    def responseFromMistal(self, messages):
+        # messages = [{"role": "user", "content": content}]
 
         client = Mistral(api_key=self.api_key)
         response = client.chat.complete(
@@ -95,4 +95,5 @@ class MistralCaller:
             model=self.model,
             messages=messages
         )
-        return response.choices[0].message.content
+        return response
+        # return response.choices[0].message.content
