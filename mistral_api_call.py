@@ -3,6 +3,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 import functools
 from time import sleep
+import json
 
 load_dotenv()  # take environment variables
 api_key = os.environ["MISTRAL_API_KEY"]
@@ -64,33 +65,33 @@ names_to_functions = {
   'return_id_for_given_name': functools.partial(return_id_for_given_name)
 }
 
-messages = [{"role": "user", "content": "What's the Id and address of person Amy?"}]
+messages = [{"role": "user", "content": "What is address if Hannah?"}]
 
 client = Mistral(api_key=api_key)
 response = client.chat.complete(
     model = model,
     messages = messages,
     tools = tools,
-    tool_choice = "any",
+    tool_choice = "auto",
 )
 resp = response.choices[0].message
 
-import json
-# calls = response.choices[0].messages.tool_calls
-
 messages.append(response.choices[0].message)
 
-for tool_call in resp.tool_calls:
-    function_name = tool_call.function.name
-    function_params = json.loads(tool_call.function.arguments)
-    print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
-    function_result = names_to_functions[function_name](**function_params)
-    messages.append({"role": "tool", "name": function_name, "content": function_result, "tool_call_id": tool_call.id})
+if (resp.tool_calls == None):
+    print("Final output >>  " + response.choices[0].message.content)
+else:
+    for tool_call in resp.tool_calls:
+        function_name = tool_call.function.name
+        function_params = json.loads(tool_call.function.arguments)
+        print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
+        function_result = names_to_functions[function_name](**function_params)
+        messages.append({"role": "tool", "name": function_name, "content": function_result, "tool_call_id": tool_call.id})
 
-sleep(2)
-response = client.chat.complete(
-    model = model,
-    messages = messages
-)
-print("Final output >>  "+ response.choices[0].message.content)
+    sleep(2)
+    response = client.chat.complete(
+        model = model,
+        messages = messages
+    )
+    print("Final output >>  "+ response.choices[0].message.content)
 

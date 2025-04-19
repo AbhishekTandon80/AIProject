@@ -38,7 +38,7 @@ if user_prompt:
 
     # send user's message to GPT-4o and get a response
     message = st.session_state.chat_history
-    response = apiCaller.responseFromMistal([{"role": "user", "content": user_prompt}])
+    response = apiCaller.responseFromMistral([{"role": "user", "content": user_prompt}])
 
     assistant_response = response.choices[0].message.content
     st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})

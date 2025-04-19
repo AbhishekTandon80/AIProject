@@ -65,7 +65,7 @@ class MistralCaller:
 
 
 
-    def responseFromMistal(self, messages):
+    def responseFromMistral(self, messages):
         # messages = [{"role": "user", "content": content}]
 
         client = Mistral(api_key=self.api_key)
@@ -73,27 +73,30 @@ class MistralCaller:
             model=self.model,
             messages=messages,
             tools=self.tools,
-            tool_choice="any",
+            tool_choice="auto",
         )
         resp = response.choices[0].message
 
-        import json
-        # calls = response.choices[0].messages.tool_calls
+        if (resp.tool_calls == None):
+            return  response
+        else:
+            import json
+            # calls = response.choices[0].messages.tool_calls
 
-        messages.append(response.choices[0].message)
+            messages.append(response.choices[0].message)
 
-        for tool_call in resp.tool_calls:
-            function_name = tool_call.function.name
-            function_params = json.loads(tool_call.function.arguments)
-            print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
-            function_result = self.names_to_functions[function_name](**function_params)
-            messages.append(
-                {"role": "tool", "name": function_name, "content": function_result, "tool_call_id": tool_call.id})
+            for tool_call in resp.tool_calls:
+                function_name = tool_call.function.name
+                function_params = json.loads(tool_call.function.arguments)
+                print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
+                function_result = self.names_to_functions[function_name](**function_params)
+                messages.append(
+                    {"role": "tool", "name": function_name, "content": function_result, "tool_call_id": tool_call.id})
 
-        sleep(2)
-        response = client.chat.complete(
-            model=self.model,
-            messages=messages
-        )
-        return response
+            sleep(2)
+            response = client.chat.complete(
+                model=self.model,
+                messages=messages
+            )
+            return response
         # return response.choices[0].message.content
