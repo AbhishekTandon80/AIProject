@@ -10,6 +10,7 @@ class DBCall:
         self.mongoClient = pymongo.MongoClient("mongodb://localhost:27017/")
 
     def fetchAddressForName(self, name):
+        print("Fetching address from Mongo DB for: " + name)
         col = self.mongoClient[customerInformationDatabase][nameAddressMappingCollection]
         query = {"name": name}
         resp = col.find_one(query)
@@ -17,6 +18,7 @@ class DBCall:
         return o
 
     def fetchIdForName(self, name):
+        print("Fetching id from Mongo DB for: " + name)
         col = self.mongoClient[customerInformationDatabase][nameIdMappingCollection]
         query = {"name": name}
         resp = col.find_one(query)
