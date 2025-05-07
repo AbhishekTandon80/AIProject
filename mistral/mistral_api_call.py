@@ -9,7 +9,7 @@ load_dotenv()  # take environment variables
 api_key = os.environ["MISTRAL_API_KEY"]
 model = "mistral-large-latest"
 
-from mongo_util import DBCall
+from mongo.mongo_util import DBCall
 dbCall = DBCall()
 
 def return_address_for_given_name(name):

@@ -1,5 +1,5 @@
 import pymongo
-from CutomerMapping import NameAddressMapping, NameIdMapping
+from model.CutomerMapping import NameAddressMapping, NameIdMapping
 
 customerInformationDatabase = "customer_info"
 nameAddressMappingCollection = "name_address_mapping"

@@ -1,10 +1,7 @@
-import os
-import json
-
 import streamlit as st
 
 
-from ApiCaller import MistralCaller
+from mistral.ApiCaller import MistralCaller
 content = "What's the Id of person Amy?"
 apiCaller = MistralCaller()
 

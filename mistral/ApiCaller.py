@@ -3,7 +3,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 import functools
 from time import sleep
-from mongo_util import DBCall
+from mongo.mongo_util import DBCall
 
 class MistralCaller:
     tools = [
@@ -99,4 +99,3 @@ class MistralCaller:
                 messages=messages
             )
             return response
-        # return response.choices[0].message.content
