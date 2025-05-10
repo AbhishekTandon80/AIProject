@@ -2,12 +2,12 @@ import pymongo
 
 mongoClient = pymongo.MongoClient("mongodb://localhost:27017/")
 
-customerInformationDatabase = "customer_info"
-nameAddressMappingCollection = "name_address_mapping"
+customer_information_database = "customer_info"
+name_address_mapping_collection = "name_address_mapping"
 
 
-customerdb = mongoClient[customerInformationDatabase]
-nameAddressMappingCol = customerdb[nameAddressMappingCollection]
+customerdb = mongoClient[customer_information_database]
+name_address_mapping_col = customerdb[name_address_mapping_collection]
 
 nameAddressMapping = [
   { "name": "Amy", "address": "Apple st 652"},
@@ -24,7 +24,7 @@ nameAddressMapping = [
   { "name": "Viola", "address": "Sideway 1633"}
 ]
 
-x = nameAddressMappingCol.insert_many(nameAddressMapping)
+x = name_address_mapping_col.insert_many(nameAddressMapping)
 
 
 nameIdMapping = [
@@ -37,7 +37,7 @@ nameIdMapping = [
 ]
 
 # customerInformationDatabase = "customer_info"
-nameIdMappingCollection = "name_id_mapping"
-nameIdMappingCol = customerdb[nameIdMappingCollection]
+name_id_mapping_collection = "name_id_mapping"
+name_id_mapping_col = customerdb[name_id_mapping_collection]
 
-y = nameIdMappingCol.insert_many(nameIdMapping)
+y = name_id_mapping_col.insert_many(nameIdMapping)

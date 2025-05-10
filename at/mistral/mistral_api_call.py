@@ -9,15 +9,15 @@ load_dotenv()  # take environment variables
 api_key = os.environ["MISTRAL_API_KEY"]
 model = "mistral-large-latest"
 
-from mongo.mongo_util import DBCall
+from at.mongo.mongo_util import DBCall
 dbCall = DBCall()
 
 def return_address_for_given_name(name):
-    ret = dbCall.fetchAddressForName(name)
+    ret = dbCall.fetch_address_for_name(name)
     return ret.address
 
 def return_id_for_given_name(name):
-    ret = dbCall.fetchIdForName(name)
+    ret = dbCall.fetch_id_for_name(name)
     return ret.Id
 
 
@@ -61,8 +61,8 @@ tools = [
 
 
 names_to_functions = {
-  'return_address_for_given_name': functools.partial(return_address_for_given_name),
-  'return_id_for_given_name': functools.partial(return_id_for_given_name)
+  'return_address_for_given_name': return_address_for_given_name,
+  'return_id_for_given_name': return_id_for_given_name
 }
 
 messages = [{"role": "user", "content": "What is address if Hannah?"}]

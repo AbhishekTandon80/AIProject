@@ -1,6 +1,15 @@
-## AI Agent Application 
-# Description
-This project implements AI agent application using Streamlit API and Mistral LLM. 
-To get started, obtain MISTRAL_API_KEY and place it id `.env` file.
+# AI Agent Application - WIP
+## Description
+This project implements AI Chat Bot that provided option to integrate with both OpenAI and Mistral LLM. 
+
+To get started
+- Install `Python 3.2+`
+- Activate [virtualenv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) using `pip`
+- Install dependencies `pip install -r requirements.txt`.
+- Obtain OPENAI_API_KEY and MISTRAL_API_KEY and place them  inside `.env` file.
+- Install Docker Desktop and MongoDB
+
+
+
 
 

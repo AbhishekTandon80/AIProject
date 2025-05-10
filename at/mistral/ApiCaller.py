@@ -3,7 +3,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 import functools
 from time import sleep
-from mongo.mongo_util import DBCall
+from at.mongo.mongo_util import DBCall
 
 class MistralCaller:
     tools = [
@@ -56,16 +56,16 @@ class MistralCaller:
         }
 
     def return_address_for_given_name(self, name):
-        ret = self.dbCall.fetchAddressForName(name)
+        ret = self.dbCall.fetch_address_for_name(name)
         return ret.address
 
     def return_id_for_given_name(self, name):
-        ret = self.dbCall.fetchIdForName(name)
+        ret = self.dbCall.fetch_id_for_name(name)
         return ret.Id
 
 
 
-    def responseFromMistral(self, messages):
+    def response_from_mistral(self, messages):
         # messages = [{"role": "user", "content": content}]
 
         client = Mistral(api_key=self.api_key)

@@ -1,6 +1,6 @@
 import pymongo
 
-from model.CutomerMapping import NameAddressMapping
+from at.model.CutomerMapping import NameAddressMapping
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
