@@ -1,6 +1,6 @@
 # AI Agent Application - WIP
 ## Description
-This project implements AI Chat Bot that provided option to integrate with both OpenAI and Mistral LLM. 
+This project implements AI Chat Bot that integrates with both OpenAI and Mistral LLM. 
 
 To get started
 - Install `Python 3.2+`

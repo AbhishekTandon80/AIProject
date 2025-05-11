@@ -1,6 +1,9 @@
 import pymongo
 
-mongoClient = pymongo.MongoClient("mongodb://localhost:27017/")
+# Community MongoDB
+# mongoClient = pymongo.MongoClient("mongodb://localhost:27017/")
+#Atlast MongoDB
+mongoClient = pymongo.MongoClient("mongodb://localhost:27017/?directConnection=true")
 
 customer_information_database = "customer_info"
 name_address_mapping_collection = "name_address_mapping"
