@@ -1,7 +1,6 @@
-python
 import streamlit as st
-from at.mistral.ApiCaller import MistralCaller
-from at.openai.ApiCaller import OpenAICaller
+from at.mistral.api_caller import MistralCaller
+from at.openai.api_caller import OpenAICaller
 from dotenv import load_dotenv
 
 # Load environment variables

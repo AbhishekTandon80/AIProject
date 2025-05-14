@@ -1,6 +1,6 @@
 import streamlit as st
 
-from at.openai.ApiCaller import OpenAICaller
+from at.openai.api_caller import OpenAICaller
 from dotenv import load_dotenv
 
 content = "What's the Id of person Amy?"

@@ -14,6 +14,8 @@ from time import sleep
 def load_and_process_from_db(limit: int):
     database = get_database(database_name)
     data = list(get_collection(database, collection_raw_df).find().limit(limit))
+    # print("Data retrieved from MongoDB:", data)
+    # Convert to DataFrame
     df = pd.DataFrame(data)
     return df
 
