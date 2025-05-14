@@ -5,15 +5,15 @@ import tiktoken
 from create_text_from_pdf import openai_llm_client
 from create_text_from_pdf import mistral_llm_client
 from create_text_from_pdf import database_name
-from create_text_from_pdf import collection_name
+from create_text_from_pdf import collection_raw_df
 from create_text_from_pdf import get_embedding_from_mistral
-from create_text_from_pdf import collection_embedding
+from create_text_from_pdf import collection_embedding_df
 from create_text_from_pdf import database
 from time import sleep
 
 def load_and_process_from_db(limit: int):
     database = get_database(database_name)
-    data = list(get_collection(database, collection_name).find().limit(limit))
+    data = list(get_collection(database, collection_raw_df).find().limit(limit))
     df = pd.DataFrame(data)
     return df
 
@@ -38,7 +38,7 @@ llm_client = "mistral"
 model = None
 client = None
 
-if (llm_client =="mistral"):
+if llm_client == "mistral":
     model = "mistral-embed"
     client = mistral_llm_client
 else:
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         embedding_data = get_embedding_from_mistral(df_subset, client)
         df_subset["embedding"] = df_subset.apply(lambda row: add_embedding(row.name, embedding_data), axis = 1)
         df_subset = df_subset.drop('_id', axis=1)
-        get_collection(database, collection_embedding).insert_many(df_subset.to_dict(orient='records'))
+        get_collection(database, collection_embedding_df).insert_many(df_subset.to_dict(orient='records'))
         print("Insert completed into database for batch...")
 
 

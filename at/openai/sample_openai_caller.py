@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from CallingFunction import OpenAICaller
+from at.openai.ApiCaller import OpenAICaller
 
 load_dotenv()
 function_caller = OpenAICaller()

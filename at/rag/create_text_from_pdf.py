@@ -11,9 +11,11 @@ from openai import OpenAI
 load_dotenv()
 database_name = "storage"
 
-collection_name = "df_storage"
-collection_embedding = "embedding_storage"
-mongoClient = pymongo.MongoClient("mongodb://localhost:27017/?directConnection=true")
+mongo_uri = "mongodb://localhost:27017/?directConnection=true"
+collection_raw_df = "dataframe"
+collection_embedding_df = "dataframe_with_embedding"
+
+mongoClient = pymongo.MongoClient(mongo_uri)
 mistral_llm_client = Mistral(os.environ["MISTRAL_API_KEY"])
 openai_llm_client = OpenAI()
 
@@ -37,7 +39,7 @@ def data_prep(file):
     df = pd.DataFrame({'text_chunks': text_chunks})
     df_dict = df.to_dict(orient='records')
     database = get_database(database_name)
-    get_collection(database, collection_name).insert_many(df_dict)
+    get_collection(database, collection_raw_df).insert_many(df_dict)
 
     return "PDF processed and data stored in MongoDB."
 
